@@ -25,6 +25,6 @@ abstract class Controller extends BaseController
             throw new \Exception("Method '{$method}' is not callable!", 1);
         }
 
-        return call_user_func_array([$this, $method], $params);
+        return $this->callAction($method, $params);
     }
 }

@@ -26,7 +26,7 @@ class ExampleController extends Controller
 
 ```php
 Route::middleware([Huangdijia\JsonRpc\Middleware::class])->group(function() {
-    Route::post('/user', 'ExampleController');
+    Route::post('/example', 'ExampleController');
 });
 ```
 
