@@ -15,7 +15,7 @@ class Middleware
      */
     public function handle($request, Closure $next)
     {
-        $error = '';
+        $error = null;
 
         try {
             $response = $next($request);
