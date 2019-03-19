@@ -2,6 +2,8 @@
 
 namespace Huangdijia\JsonRpc;
 
+use Closure;
+
 class Middleware
 {
     /**
