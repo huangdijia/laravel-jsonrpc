@@ -15,7 +15,10 @@ use Huangdijia\JsonRpc\Controller;
 
 class ExampleController extends Controller
 {
-    //
+    public function action()
+    {
+        return 'some result';
+    }
 }
 ```
 
