@@ -33,6 +33,6 @@ Route::middleware([Huangdijia\JsonRpc\Middleware::class])->group(function() {
 ### As Client
 
 ```php
-$client = new Huangdijia\JsonRpc($url);
-$result = $client->action();
+$client = new Huangdijia\JsonRpc\Client($url);
+$result = $client->action(); // some result
 ```
