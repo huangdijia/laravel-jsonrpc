@@ -138,7 +138,6 @@ class Client
 
         // 调试输出
         if ($this->debug) {
-            // echo nl2br($this->debug);
             info($this->debug);
         }
 
