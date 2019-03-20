@@ -9,7 +9,7 @@ abstract class LumenController extends BaseController
     final public function __invoke()
     {
         if (!($this instanceof \Huangdijia\JsonRpc\Controller)) {
-            throw new \Exception(get_class($this) . " must instanceof " . \Huangdijia\JsonRpc\Controller::class, 1);
+            throw new \Exception(get_class($this) . " must instanceof " . \Huangdijia\JsonRpc\LumenController::class, 1);
         }
 
         $id     = request()->input('id', 1);
