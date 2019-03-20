@@ -4,7 +4,7 @@ namespace Huangdijia\JsonRpc;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 
-abstract class Controller extends BaseController
+abstract class LumenController extends BaseController
 {
     final public function __invoke()
     {
