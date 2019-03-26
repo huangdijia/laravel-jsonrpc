@@ -17,9 +17,14 @@ abstract class Controller extends BaseController
             throw new \Exception(get_class($this) . " must instanceof " . \Huangdijia\JsonRpc\Controller::class, 1);
         }
 
+        $request = json_decode(file_get_contents('php://input'), true);
+
+        request()->merge($request);
+
         $id     = request()->input('id', 1);
         $method = request()->input('method', 'index');
         $params = request()->input('params', []);
+
 
         if (!is_callable($this, $method)) {
             throw new \Exception("Method '{$method}' is not callable!", 1);
