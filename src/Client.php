@@ -28,8 +28,13 @@ class Client
      */
     private $header = [];
     /**
-     * @param $url 請示地址
-     * @param $debug 測試開關
+     *
+     * @var boolean 忽略ssl
+     */
+    private $isIgnoreSsl = false;
+    /**
+     * @param string $url 請示地址
+     * @param bool $debug 測試開關
      */
     public function __construct($url, $debug = false)
     {
@@ -44,8 +49,8 @@ class Client
     }
 
     /**
-     * @param $name 名称
-     * @param $value 值
+     * @param string $name 名称
+     * @param string $value 值
      */
     public function setHeader($name, $value = '')
     {
@@ -57,7 +62,8 @@ class Client
     }
 
     /**
-     * @param $notification 通知開關
+     * 通知開關
+     * @param bool $notification
      */
     public function setRPCNotification($notification)
     {
@@ -65,8 +71,18 @@ class Client
     }
 
     /**
-     * @param $method 請示方法
-     * @param $params 請求參數
+     * 是否忽略ssl
+     *
+     * @param boolean $bool
+     */
+    public function setIgnoreSsl($bool = false)
+    {
+        $this->isIgnoreSsl = $bool;
+    }
+
+    /**
+     * @param string $method 請示方法
+     * @param array $params 請求參數
      * @return mixed
      */
     public function __call($method, $params)
@@ -119,6 +135,13 @@ class Client
                 'content' => $request,
             ],
         ];
+
+        if ($this->isIgnoreSsl) {
+            $opts["ssl"] = [
+                "verify_peer"      => false,
+                "verify_peer_name" => false,
+            ];
+        }
 
         $context = stream_context_create($opts);
 
