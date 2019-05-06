@@ -17,7 +17,7 @@ abstract class Controller extends BaseController
             throw new \Exception(get_class($this) . " must instanceof " . \Huangdijia\JsonRpc\Controller::class, 1);
         }
 
-        $request = json_decode(file_get_contents('php://input'), true);
+        $request = json_decode(file_get_contents('php://input'), true) ?: [];
 
         request()->merge($request);
 
