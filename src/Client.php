@@ -46,6 +46,10 @@ class Client
         $this->debug = empty($debug) ? false : true;
         // 请求 id
         $this->id = 1;
+        // 默认忽略ssl
+        if (substr($this->url, 0, 5) == 'https') {
+            $this->isIgnoreSsl = true;
+        }
     }
 
     /**
@@ -55,10 +59,12 @@ class Client
     public function setHeader($name, $value = '')
     {
         if (in_array(strtolower($name), ['content-type', 'content-length'])) {
-            return;
+            return $this;
         }
 
         $this->header[$name] = $value;
+
+        return $this;
     }
 
     /**
@@ -68,6 +74,8 @@ class Client
     public function setRPCNotification($notification)
     {
         $this->notification = empty($notification) ? false : true;
+
+        return $this;
     }
 
     /**
@@ -78,6 +86,8 @@ class Client
     public function setIgnoreSsl($bool = false)
     {
         $this->isIgnoreSsl = $bool;
+
+        return $this;
     }
 
     /**
