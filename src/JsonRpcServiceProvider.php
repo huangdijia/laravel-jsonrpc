@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 class JsonRpcServiceProvider extends ServiceProvider
 {
-    protected $defer = false;
+    protected $defer = true;
 
     public function boot()
     {
@@ -32,6 +32,9 @@ class JsonRpcServiceProvider extends ServiceProvider
 
     public function provides()
     {
-        return [];
+        return [
+            Client::class,
+            'jsonrpc.client',
+        ];
     }
 }
