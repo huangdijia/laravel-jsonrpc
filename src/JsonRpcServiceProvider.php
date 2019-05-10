@@ -7,7 +7,7 @@ use Illuminate\Support\ServiceProvider;
 
 class JsonRpcServiceProvider extends ServiceProvider
 {
-    protected $defer = true;
+    protected $defer = false;
 
     public function boot()
     {
