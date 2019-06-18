@@ -19,7 +19,7 @@ trait JsonRpc
         $method = $request->input('method', 'index');
         $params = $request->input('params', []);
 
-        if (!is_callable($this, $method)) {
+        if (!is_callable([$this, $method])) {
             return $this->failure("Method '{$method}' is not callable!");
         }
 
