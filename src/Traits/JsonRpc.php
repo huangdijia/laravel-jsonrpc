@@ -24,7 +24,13 @@ trait JsonRpc
         }
 
         try {
-            return call_user_func_array([$this, $method], $params);
+            $result = call_user_func_array([$this, $method], $params);
+
+            if (!isset($result['jsonrpc'])) {
+                $result = $this->response($result);
+            }
+
+            return $result;
         } catch (Exception $e) {
             return $this->failure($e->getMessage());
         }
@@ -39,26 +45,21 @@ trait JsonRpc
      */
     public function failure(string $error, $result = '')
     {
-        return [
-            'jsonrpc' => config('jsonrpc.version', '2.0'),
-            'result'  => $result,
-            'error'   => $error,
-            'id'      => app('request')->input('id', 1),
-        ];
+        return $this->response($result, $error);
     }
 
     /**
-     * Success
+     * Response
      *
      * @param mixed $result
      * @return array
      */
-    public function success($result = [])
+    public function response($result = [], string $error = null)
     {
         return [
             'jsonrpc' => config('jsonrpc.version', '2.0'),
             'result'  => $result,
-            'error'   => null,
+            'error'   => $error,
             'id'      => app('request')->input('id', 1),
         ];
     }
