@@ -33,7 +33,7 @@ trait JsonRpc
      * @param mixed $result
      * @return array
      */
-    public function failure(strin $error, $result = '')
+    public function failure(string $error, $result = '')
     {
         return [
             'jsonrpc' => config('jsonrpc.version', '2.0'),
@@ -46,7 +46,7 @@ trait JsonRpc
     /**
      * Success
      *
-     * @param array $result
+     * @param mixed $result
      * @return array
      */
     public function success($result = [])
