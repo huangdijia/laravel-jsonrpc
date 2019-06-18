@@ -20,10 +20,14 @@ trait JsonRpc
         $params = $request->input('params', []);
 
         if (!is_callable($this, $method)) {
-            throw new Exception("Method '{$method}' is not callable!", 1);
+            return $this->failure("Method '{$method}' is not callable!");
         }
 
-        return call_user_func_array([$this, $method], $params);
+        try {
+            return call_user_func_array([$this, $method], $params);
+        } catch (Exception $e) {
+            return $this->failure($e->getMessage());
+        }
     }
 
     /**
