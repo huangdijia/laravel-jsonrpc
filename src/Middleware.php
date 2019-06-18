@@ -3,6 +3,7 @@
 namespace Huangdijia\JsonRpc;
 
 use Closure;
+use Exception;
 
 class Middleware
 {
@@ -15,19 +16,15 @@ class Middleware
      */
     public function handle($request, Closure $next)
     {
-        $error = null;
-
         try {
-            $response = $next($request);
-        } catch (\Exception $e) {
-            $error = $e->getMessage();
+            return $next($request);
+        } catch (Exception $e) {
+            return response()->json([
+                'jsonrpc' => '2.0',
+                'result'  => [],
+                'error'   => $e->getMessage(),
+                'id'      => $request['id'] ?? 1,
+            ]);
         }
-
-        return response()->json([
-            'jsonrpc' => '2.0',
-            'result'  => $response->getOriginalContent(),
-            'error'   => $error,
-            'id'      => $request['id'] ?? 1,
-        ]);
     }
 }
