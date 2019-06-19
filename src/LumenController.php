@@ -2,11 +2,10 @@
 
 namespace Huangdijia\JsonRpc;
 
-use Laravel\Lumen\Routing\Controller as BaseController;
-use Illuminate\Http\Request;
 use Huangdijia\JsonRpc\Traits\JsonRpc;
+use Laravel\Lumen\Routing\Controller;
 
-abstract class LumenController extends BaseController
+abstract class LumenController extends Controller
 {
     use JsonRpc;
 }
