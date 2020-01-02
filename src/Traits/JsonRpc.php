@@ -20,6 +20,10 @@ trait JsonRpc
         $method = (string) $request->input('method', 'index');
         $params = (array) $request->input('params', []);
 
+        if (!$request->isMethod('POST')) {
+            return $this->packaging([], "Request method must be POST, {$request->method()} given.", $id);
+        }
+
         if (!is_callable([$this, $method])) {
             return $this->packaging([], sprintf("class '%s' does not have a method '%s'", get_class($this), $method), $id);
         }
