@@ -177,11 +177,11 @@ class Client
         // 最后检查返回结果
         if (!$this->notification) {
             // 检查请求 id
-            if ($response['id'] != $currentId) {
+            if (isset($response['id']) && $response['id'] != $currentId) {
                 throw new Exception('Incorrect response id (request id: ' . $currentId . ', response id: ' . $response['id'] . ')');
             }
 
-            if (!is_null($response['error'])) {
+            if (isset($response['error']) && !is_null($response['error'])) {
                 throw new Exception('Request error: ' . $response['error']);
             }
 
