@@ -185,6 +185,10 @@ class Client
                 throw new Exception('Request error: ' . $response['error']);
             }
 
+            if (!isset($response['result'])) {
+                throw new Exception("Error response[result]", 1);
+            }
+
             return $response['result'];
         }
 
