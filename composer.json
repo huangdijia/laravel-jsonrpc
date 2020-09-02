@@ -8,17 +8,15 @@
     ],
     "homepage": "https://github.com/huangdijia/laravel-jsonrpc",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "huangdijia",
-            "email": "huangdijia@gmail.com"
-        }
-    ],
+    "authors": [{
+        "name": "huangdijia",
+        "email": "huangdijia@gmail.com"
+    }],
     "require": {
         "php": ">=7.0.0",
-        "illuminate/support": "^5.7|^5.8|^6.0|^7.0",
-        "illuminate/http": "^5.7|^5.8|^6.0|^7.0",
-        "illuminate/console": "^5.7|^5.8|^6.0|^7.0"
+        "illuminate/support": "^5.7|^6",
+        "illuminate/http": "^5.7|^6",
+        "illuminate/console": "^5.7|^6"
     },
     "autoload": {
         "psr-4": {
@@ -31,7 +29,7 @@
                 "Huangdijia\\JsonRpc\\JsonRpcServiceProvider"
             ]
         },
-        "aliases" : {
+        "aliases": {
             "JsonRpcClient": "Huangdijia\\JsonRpc\\Client",
             "JsonRpcController": "Huangdijia\\JsonRpc\\Controller",
             "JsonRpcMiddleware": "Huangdijia\\JsonRpc\\Middleware"
