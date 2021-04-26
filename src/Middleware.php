@@ -3,7 +3,7 @@
 namespace Huangdijia\JsonRpc;
 
 use Closure;
-use Exception;
+use Throwable;
 
 class Middleware
 {
@@ -18,7 +18,7 @@ class Middleware
     {
         try {
             return $next($request);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return response()->json([
                 'jsonrpc' => '2.0',
                 'result'  => [],

@@ -2,9 +2,9 @@
 
 namespace Huangdijia\JsonRpc\Traits;
 
-use Exception;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Throwable;
 
 trait JsonRpc
 {
@@ -43,7 +43,7 @@ trait JsonRpc
 
             // return array
             return $this->packaging($result, null, $id);
-        } catch (Exception $e) {
+        } catch (Throwable $e) {
             return $this->packaging('', $e->getMessage(), $id);
         }
     }
