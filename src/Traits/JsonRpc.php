@@ -49,7 +49,7 @@ trait JsonRpc
             // Return as array
             return $this->pack($result, null, $id);
         } catch (Throwable $e) {
-            return $this->pack('', $e->getMessage(), $id);
+            return $this->pack(null, $e->getMessage(), $id);
         }
     }
 
