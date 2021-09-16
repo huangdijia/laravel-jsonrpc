@@ -19,52 +19,39 @@ class Client
     const JSONRPC_VERSION = '2.0';
 
     /**
-     * @var string 請求地址
+     * @var string
      */
     private $url = '';
 
     /**
-     * @var int 請求編號
+     * @var int
      */
     private $id = 0;
 
     /**
-     * @var bool 通知開關
+     * @var bool
      */
     private $notification = false;
 
     /**
-     * @var array 请求头部
+     * @var array
      */
     private $headers = [];
 
-    /**
-     * @param string $url 請示地址
-     * @param bool $debug 測試開關
-     */
-    public function __construct($url, $debug = false)
+    public function __construct(string $url)
     {
-        // Server URL
         $this->url = $url;
-        // Request ID
         $this->id = 1;
     }
 
-    /**
-     * @param string $method 請示方法
-     * @param array $params 請求參數
-     * @return mixed
-     */
     public function __call($method, $params)
     {
-        // 设置通知
         if ($this->notification) {
             $currentId = null;
         } else {
             $currentId = $this->id;
         }
 
-        // 封闭参数
         $data = [
             'jsonrpc' => self::JSONRPC_VERSION,
             'method' => $method,
@@ -81,12 +68,10 @@ class Client
             })
             ->json();
 
-        // Return when just notification
         if ($this->notification) {
             return true;
         }
 
-        // Check for request ID
         if (isset($response['id']) && $response['id'] != $currentId) {
             throw new RequestException(sprintf('Incorrect response id (request id: %s, response id: %s)', $currentId, $response['id']), $this->url);
         }
