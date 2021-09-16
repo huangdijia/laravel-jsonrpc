@@ -1,8 +1,14 @@
 <?php
-
+/**
+ * This file is part of laravel-jsonrpc.
+ *
+ * @link     https://github.com
+ * @document https://github.com/huangdijia/laravel-jsonrpc/blob/2.x/README.md
+ * @contact  hdj@addcn.com
+ * @license  https://github.com/huangdijia/laravel-jsonrpc/blob/2.x/LICENSE
+ */
 namespace Huangdijia\JsonRpc;
 
-use Huangdijia\JsonRpc\Client;
 use Illuminate\Support\ServiceProvider;
 
 class JsonRpcServiceProvider extends ServiceProvider
@@ -11,30 +17,15 @@ class JsonRpcServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        //
     }
 
     public function register()
     {
-        $this->app->bind(Client::class, function ($app, $parameters) {
-            static $instances = [];
-
-            $key = $parameters['url'];
-
-            if (!isset($instances[$key])) {
-                $instances[$key] = new Client($parameters['url'], $parameters['debug'] ?? false);
-            }
-
-            return $instances[$key];
-        });
-        $this->app->alias(Client::class, 'jsonrpc.client');
     }
 
     public function provides()
     {
         return [
-            Client::class,
-            'jsonrpc.client',
         ];
     }
 }
