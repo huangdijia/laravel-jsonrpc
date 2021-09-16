@@ -38,9 +38,11 @@ class Client
      */
     private $headers = [];
 
-    public function __construct(string $url)
+    public function __construct(string $url, array $headers = [], bool $notification = false)
     {
         $this->url = $url;
+        $this->headers = $headers;
+        $this->notification = $notification;
         $this->id = 1;
     }
 
@@ -59,8 +61,8 @@ class Client
             'id' => $currentId,
         ];
 
-        /** @var array $response */
-        $response = Http::withHeaders($this->headers)
+        /** @var array $respond */
+        $respond = Http::withHeaders($this->headers)
             ->asJson()
             ->post($this->url, $data)
             ->throw(function (Response $response, HttpRequestException $exception) {
@@ -72,21 +74,25 @@ class Client
             return true;
         }
 
-        if (isset($response['id']) && $response['id'] != $currentId) {
-            throw new RequestException(sprintf('Incorrect response id (request id: %s, response id: %s)', $currentId, $response['id']), $this->url);
+        if (isset($respond['id']) && $respond['id'] != $currentId) {
+            throw new RequestException(sprintf('Incorrect response id (request id: %s, response id: %s)', $currentId, $respond['id']), $this->url);
         }
 
-        if (isset($response['error']) && ! is_null($response['error'])) {
-            throw new RequestException(printf('Request error: %s', $response['error']), $this->url);
+        if (isset($respond['error']) && ! is_null($respond['error'])) {
+            throw new RequestException(printf('Request error: %s', $respond['error']), $this->url);
         }
 
-        if (! isset($response['result'])) {
+        if (! isset($respond['result'])) {
             throw new RequestException('Error response[result]', $this->url);
         }
 
-        return $response['result'];
+        return $respond['result'];
     }
 
+    /**
+     * @deprecated v3.x
+     * @return $this
+     */
     public function setHeader(string $name, string $value)
     {
         if (in_array(strtolower($name), ['content-type', 'content-length'])) {
@@ -98,6 +104,10 @@ class Client
         return $this;
     }
 
+    /**
+     * @deprecated v3.x
+     * @return $this
+     */
     public function setRPCNotification(bool $notification)
     {
         $this->notification = $notification;
