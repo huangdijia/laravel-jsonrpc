@@ -93,13 +93,11 @@ class Client
      * @deprecated v3.x
      * @return $this
      */
-    public function setHeader(string $name, string $value)
+    public function setHeader(string $name, string $value, bool $override = false)
     {
-        if (in_array(strtolower($name), ['content-type', 'content-length'])) {
-            return $this;
+        if (! isset($this->headers[$name]) || $override) {
+            $this->headers[$name] = $value;
         }
-
-        $this->headers[$name] = $value;
 
         return $this;
     }
