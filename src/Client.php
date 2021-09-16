@@ -91,10 +91,19 @@ class Client
 
     /**
      * @deprecated v3.x
+     * @param array|string $name
      * @return $this
      */
-    public function setHeader(string $name, string $value, bool $override = false)
+    public function setHeader($name, ?string $value = null, bool $override = false)
     {
+        if (is_array($name)) {
+            foreach ($name as $key => $value) {
+                $this->setHeader($key, $value, $override);
+            }
+
+            return $this;
+        }
+
         if (! isset($this->headers[$name]) || $override) {
             $this->headers[$name] = $value;
         }
