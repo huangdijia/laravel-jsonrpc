@@ -15,13 +15,15 @@ composer require huangdijia/laravel-jsonrpc
 #### Controller
 
 ```php
-use Huangdijia\JsonRpc\Controller;
+use Huangdijia\JsonRpc\Traits\JsonRpcServer;
 
 class ExampleController extends Controller
 {
+    use JsonRpcServer;
+
     public function action()
     {
-        return 'some result';
+        return 'hello, json-rpc';
     }
 }
 ```
@@ -29,7 +31,7 @@ class ExampleController extends Controller
 ### Route
 
 ```php
-Route::middleware([Huangdijia\JsonRpc\Middleware::class])->group(function() {
+Route::middleware([Huangdijia\JsonRpc\Middleware\JsonRpcMiddleware::class])->group(function() {
     Route::post('/example', 'ExampleController');
 });
 ```
@@ -38,5 +40,5 @@ Route::middleware([Huangdijia\JsonRpc\Middleware::class])->group(function() {
 
 ```php
 $client = new Huangdijia\JsonRpc\Client($url);
-$result = $client->action(); // some result
+$result = $client->action(); // hello, json-rpc
 ```

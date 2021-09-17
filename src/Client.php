@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Http;
 
 class Client
 {
-    const JSONRPC_VERSION = '2.0';
-
     /**
      * @var string
      */
@@ -55,7 +53,7 @@ class Client
         }
 
         $data = [
-            'jsonrpc' => self::JSONRPC_VERSION,
+            'jsonrpc' => Version::VERSION,
             'method' => $method,
             'params' => $params,
             'id' => $currentId,

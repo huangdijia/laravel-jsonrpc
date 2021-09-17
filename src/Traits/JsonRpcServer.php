@@ -9,28 +9,29 @@
  */
 namespace Huangdijia\JsonRpc\Traits;
 
+use Huangdijia\JsonRpc\Packer;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Throwable;
 
-trait JsonRpc
+trait JsonRpcServer
 {
     /**
      * Invoke.
      * @return array
      */
-    final public function __invoke(Request $request)
+    final public function __invoke(Request $request, Packer $packer)
     {
         $id = (int) $request->input('id', 1);
         $method = (string) $request->input('method', 'index');
         $params = (array) $request->input('params', []);
 
         if (! $request->isMethod('POST')) {
-            return $this->pack(null, "Request method must be POST, {$request->method()} given.", $id);
+            return $packer->pack(null, "Request method must be POST, {$request->method()} given.", $id);
         }
 
         if (! is_callable([$this, $method])) {
-            return $this->pack(null, sprintf("class '%s' does not have a method '%s'", get_class($this), $method), $id);
+            return $packer->pack(null, sprintf("class '%s' does not have a method '%s'", get_class($this), $method), $id);
         }
 
         try {
@@ -47,24 +48,9 @@ trait JsonRpc
             }
 
             // Return as array
-            return $this->pack($result, null, $id);
+            return $packer->pack($result, null, $id);
         } catch (Throwable $e) {
-            return $this->pack(null, $e->getMessage(), $id);
+            return $packer->pack(null, $e->getMessage(), $id);
         }
-    }
-
-    /**
-     * Pack.
-     * @param mixed $result
-     * @return array
-     */
-    protected function pack($result, ?string $error = null, ?int $id = 1)
-    {
-        return [
-            'jsonrpc' => 2.0,
-            'result' => $result,
-            'error' => $error,
-            'id' => $id,
-        ];
     }
 }

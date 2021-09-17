@@ -7,13 +7,24 @@
  * @contact  hdj@addcn.com
  * @license  https://github.com/huangdijia/laravel-jsonrpc/blob/2.x/LICENSE
  */
-namespace Huangdijia\JsonRpc;
+namespace Huangdijia\JsonRpc\Middleware;
 
 use Closure;
+use Huangdijia\JsonRpc\Packer;
 use Throwable;
 
-class Middleware
+class JsonRpcMiddleware
 {
+    /**
+     * @var Packer
+     */
+    private $packer;
+
+    public function __construct(Packer $packer)
+    {
+        $this->packer = $packer;
+    }
+
     /**
      * Handle an incoming request.
      * @param \Illuminate\Http\Request $request
@@ -24,12 +35,7 @@ class Middleware
         try {
             return $next($request);
         } catch (Throwable $e) {
-            return response()->json([
-                'jsonrpc' => '2.0',
-                'result' => [],
-                'error' => $e->getMessage(),
-                'id' => $request['id'] ?? 1,
-            ]);
+            return response()->json($this->packer->pack(null, $e->getMessage()));
         }
     }
 }
