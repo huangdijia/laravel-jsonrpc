@@ -77,7 +77,17 @@ class Client
         }
 
         if (isset($respond['error']) && ! is_null($respond['error'])) {
-            throw new RequestException(printf('Request error: %s', $respond['error']), $this->url);
+            if (is_string($respond['error'])) { // Compatible with old version
+                $respond['error'] = [
+                    'message' => $respond['error'],
+                    'code' => 0,
+                ];
+            }
+
+            $message = $respond['error']['message'] ?? 'Unknown error';
+            $code = (int) $respond['error']['code'] ?? 0;
+
+            throw new RequestException($message, $this->url, $code);
         }
 
         if (! isset($respond['result'])) {

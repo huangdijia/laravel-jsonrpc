@@ -35,7 +35,7 @@ class JsonRpcMiddleware
         try {
             return $next($request);
         } catch (Throwable $e) {
-            return response()->json($this->packer->pack(null, $e->getMessage()));
+            return response()->json($this->packer->pack(null, $e, (int) $request->input('id')));
         }
     }
 }

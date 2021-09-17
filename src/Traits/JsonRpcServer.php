@@ -9,10 +9,9 @@
  */
 namespace Huangdijia\JsonRpc\Traits;
 
+use Exception;
 use Huangdijia\JsonRpc\Packer;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Throwable;
 
 trait JsonRpcServer
 {
@@ -27,30 +26,16 @@ trait JsonRpcServer
         $params = (array) $request->input('params', []);
 
         if (! $request->isMethod('POST')) {
-            return $packer->pack(null, "Request method must be POST, {$request->method()} given.", $id);
+            throw new Exception(sprintf('Request method must be POST, %s given.', $request->method()));
         }
 
         if (! is_callable([$this, $method])) {
-            return $packer->pack(null, sprintf("Class '%s' does not have a method '%s'", get_class($this), $method), $id);
+            throw new Exception(sprintf("Class '%s' does not have a method '%s'", get_class($this), $method));
         }
 
-        try {
-            $result = call_user_func_array([$this, $method], $params);
+        $result = call_user_func_array([$this, $method], $params);
 
-            // Get data from JsonResponse
-            if ($result instanceof JsonResponse) {
-                $result = $result->getData();
-            }
-
-            // Has packed
-            if (is_array($result) && isset($result['jsonrpc'])) {
-                return $result;
-            }
-
-            // Return as array
-            return $packer->pack($result, null, $id);
-        } catch (Throwable $e) {
-            return $packer->pack(null, $e->getMessage(), $id);
-        }
+        // Return as array
+        return $packer->pack($result, null, $id);
     }
 }
