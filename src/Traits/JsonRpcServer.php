@@ -31,7 +31,7 @@ trait JsonRpcServer
         }
 
         if (! is_callable([$this, $method])) {
-            return $packer->pack(null, sprintf("class '%s' does not have a method '%s'", get_class($this), $method), $id);
+            return $packer->pack(null, sprintf("Class '%s' does not have a method '%s'", get_class($this), $method), $id);
         }
 
         try {
