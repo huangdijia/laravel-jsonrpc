@@ -34,12 +34,12 @@ class Client
     /**
      * @var array
      */
-    private $headers = [];
+    private $options = [];
 
     public function __construct(string $url, array $headers = [], bool $notification = false)
     {
         $this->url = $url;
-        $this->headers = $headers;
+        $this->options['headers'] = $headers;
         $this->notification = $notification;
         $this->id = 1;
     }
@@ -60,7 +60,7 @@ class Client
         ];
 
         /** @var array $respond */
-        $respond = Http::withHeaders($this->headers)
+        $respond = Http::withOptions($this->options)
             ->asJson()
             ->post($this->url, $data)
             ->throw(function (Response $response, HttpRequestException $exception) {
@@ -96,6 +96,15 @@ class Client
 
         return $respond['result'];
     }
+	
+	/**
+     * @param array $options
+     * @return $this
+     */
+	public function withOptions(array $options) {
+		$this->options = array_merge_recursive($options, $this->options);
+		return $this;
+	}
 
     /**
      * @deprecated v3.x
@@ -112,8 +121,8 @@ class Client
             return $this;
         }
 
-        if (! isset($this->headers[$name]) || $override) {
-            $this->headers[$name] = $value;
+        if (! isset($this->options['headers'][$name]) || $override) {
+            $this->options['headers'][$name] = $value;
         }
 
         return $this;
