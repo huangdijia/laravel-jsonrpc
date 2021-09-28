@@ -10,7 +10,7 @@
 namespace Huangdijia\JsonRpc\Traits;
 
 use Exception;
-use Huangdijia\JsonRpc\Packer;
+use Huangdijia\JsonRpc\Packers\ResponsePacker;
 use Illuminate\Http\Request;
 
 trait JsonRpcServer
@@ -19,7 +19,7 @@ trait JsonRpcServer
      * Invoke.
      * @return array
      */
-    final public function __invoke(Request $request, Packer $packer)
+    final public function __invoke(Request $request, ResponsePacker $packer)
     {
         $id = (int) $request->input('id', 1);
         $method = (string) $request->input('method', 'index');

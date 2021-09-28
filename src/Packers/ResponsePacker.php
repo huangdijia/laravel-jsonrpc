@@ -7,12 +7,13 @@
  * @contact  hdj@addcn.com
  * @license  https://github.com/huangdijia/laravel-jsonrpc/blob/2.x/LICENSE
  */
-namespace Huangdijia\JsonRpc;
+namespace Huangdijia\JsonRpc\Packers;
 
+use Huangdijia\JsonRpc\Version;
 use Illuminate\Http\JsonResponse;
 use Throwable;
 
-class Packer
+class ResponsePacker
 {
     /**
      * @param mixed $result

@@ -10,17 +10,17 @@
 namespace Huangdijia\JsonRpc\Middleware;
 
 use Closure;
-use Huangdijia\JsonRpc\Packer;
+use Huangdijia\JsonRpc\Packers\ResponsePacker;
 use Throwable;
 
 class JsonRpcMiddleware
 {
     /**
-     * @var Packer
+     * @var ResponsePacker
      */
     private $packer;
 
-    public function __construct(Packer $packer)
+    public function __construct(ResponsePacker $packer)
     {
         $this->packer = $packer;
     }
