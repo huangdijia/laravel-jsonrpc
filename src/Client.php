@@ -36,10 +36,10 @@ class Client
      */
     private $options = [];
 
-    public function __construct(string $url, array $headers = [], bool $notification = false)
+    public function __construct(string $url, array $options = [], bool $notification = false)
     {
         $this->url = $url;
-        $this->options['headers'] = $headers;
+        $this->options = $options;
         $this->notification = $notification;
         $this->id = 1;
     }
@@ -96,46 +96,13 @@ class Client
 
         return $respond['result'];
     }
-	
-	/**
-     * @param array $options
-     * @return $this
-     */
-	public function withOptions(array $options) {
-		$this->options = array_merge_recursive($options, $this->options);
-		return $this;
-	}
 
     /**
-     * @deprecated v3.x
-     * @param array|string $name
      * @return $this
      */
-    public function setHeader($name, ?string $value = null, bool $override = false)
+    public function withOptions(array $options)
     {
-        if (is_array($name)) {
-            foreach ($name as $key => $value) {
-                $this->setHeader($key, $value, $override);
-            }
-
-            return $this;
-        }
-
-        if (! isset($this->options['headers'][$name]) || $override) {
-            $this->options['headers'][$name] = $value;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @deprecated v3.x
-     * @return $this
-     */
-    public function setRPCNotification(bool $notification)
-    {
-        $this->notification = $notification;
-
+        $this->options = array_merge_recursive($options, $this->options);
         return $this;
     }
 }
