@@ -2,9 +2,8 @@
 /**
  * This file is part of laravel-jsonrpc.
  *
- * @link     https://github.com
- * @document https://github.com/huangdijia/laravel-jsonrpc/blob/2.x/README.md
- * @contact  hdj@addcn.com
+ * @link https://github.com/huangdijia/laravel-jsonrpc/blob/2.x/README.md
+ * @contact  huangdijia@gmail.com
  * @license  https://github.com/huangdijia/laravel-jsonrpc/blob/2.x/LICENSE
  */
 namespace Huangdijia\JsonRpc;
@@ -96,15 +95,15 @@ class Client
 
         return $respond['result'];
     }
-	
-	/**
-     * @param array $options
+
+    /**
      * @return $this
      */
-	public function withOptions(array $options) {
-		$this->options = array_merge_recursive($options, $this->options);
-		return $this;
-	}
+    public function withOptions(array $options)
+    {
+        $this->options = array_merge_recursive($options, $this->options);
+        return $this;
+    }
 
     /**
      * @deprecated v3.x
